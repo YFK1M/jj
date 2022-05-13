@@ -11,6 +11,7 @@ import {
 import { logger } from './player.module';
 import { CreatePlayerImageDto } from './dto/create-player-image.dto';
 import { filter } from 'rxjs';
+import { UpdatePlayerImageDto } from './dto/update-player-image.dto';
 
 @Injectable()
 export class PlayerService {
@@ -20,17 +21,20 @@ export class PlayerService {
     private playerImageModel: Model<PlayerImageDocument>,
   ) {}
 
-  async getAll(): Promise<Player[] | void> {
+  async getAll(): Promise<any> {
     try {
-      return this.playerModel.find().exec();
-    } catch (err) {
-      return logger.error(`Service. Error: ${JSON.stringify(err)}`);
-    }
-  }
-
-  async getAllImages(): Promise<PlayerImage[] | void> {
-    try {
-      return this.playerImageModel.find().exec();
+      return this.playerModel.find().then(async (playersObj) => {
+        return await Promise.all(
+          playersObj.map(async (player) => {
+            const playerId = player._id;
+            const playerImages = await this.getImageById(playerId);
+            return {
+              player: player,
+              images: playerImages,
+            };
+          }),
+        );
+      });
     } catch (err) {
       return logger.error(`Service. Error: ${JSON.stringify(err)}`);
     }
@@ -87,9 +91,30 @@ export class PlayerService {
     }
   }
 
+  async removeImage(id: string): Promise<PlayerImage | void> {
+    try {
+      return this.playerImageModel.findByIdAndRemove(id);
+    } catch (err) {
+      return logger.error(`Service. Error: ${JSON.stringify(err)}`);
+    }
+  }
+
   async update(id: string, playerDto: UpdatePlayerDto): Promise<Player | void> {
     try {
       return this.playerModel.findByIdAndUpdate(id, playerDto, { new: true });
+    } catch (err) {
+      return logger.error(`Service. Error: ${JSON.stringify(err)}`);
+    }
+  }
+
+  async updateImage(
+    id: string,
+    playerImageDto: UpdatePlayerImageDto,
+  ): Promise<PlayerImage | void> {
+    try {
+      return this.playerImageModel.findByIdAndUpdate(id, playerImageDto, {
+        new: true,
+      });
     } catch (err) {
       return logger.error(`Service. Error: ${JSON.stringify(err)}`);
     }

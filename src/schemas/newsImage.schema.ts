@@ -7,7 +7,7 @@ export type NewsImageDocument = NewsImage & Document;
 @Schema()
 export class NewsImage {
   @Prop({ type: SchemaTypes.ObjectId, ref: News.name })
-  player_id: Types.ObjectId;
+  news_id: Types.ObjectId;
 
   @Prop()
   image_url: string;

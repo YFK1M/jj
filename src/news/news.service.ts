@@ -19,7 +19,7 @@ export class NewsService {
   async getAll(): Promise<News[] | void> {
     try {
       return this.newsModel.find()
-        .populate('newsImage')
+        .populate<{ newsImage: NewsImage }>('newsImage')
         .then((newsArray) => newsArray.map((news) => news.toJSON({virtuals: true})))
         .catch((err) => logger.error('Service.getAll', err));
     } catch(err) {

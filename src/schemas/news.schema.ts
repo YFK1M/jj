@@ -15,4 +15,4 @@ export class News {
   description: string;
 }
 
-export const NewsDocument = SchemaFactory.createForClass(News);
+export const NewsSchema = SchemaFactory.createForClass(News);

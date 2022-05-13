@@ -18,4 +18,4 @@ export class Product {
   description: string;
 }
 
-export const ProductDocument = SchemaFactory.createForClass(Product);
+export const ProductSchema = SchemaFactory.createForClass(Product);

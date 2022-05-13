@@ -16,4 +16,4 @@ export class Ticket {
   price: string;
 }
 
-export const TicketDocument = SchemaFactory.createForClass(Ticket);
+export const TicketSchema = SchemaFactory.createForClass(Ticket);

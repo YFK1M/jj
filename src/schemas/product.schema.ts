@@ -1,13 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Types } from 'mongoose';
+import { Document } from 'mongoose';
 
 export type ProductDocument = Product & Document;
 
 @Schema()
 export class Product {
-  @Prop()
-  _id: Types.ObjectId;
-
   @Prop()
   price: number;
 
@@ -19,3 +16,9 @@ export class Product {
 }
 
 export const ProductSchema = SchemaFactory.createForClass(Product);
+
+ProductSchema.virtual('productImage', {
+  ref: 'ProductImage',
+  localField: '_id',
+  foreignField: 'product_id',
+});

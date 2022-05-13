@@ -6,9 +6,6 @@ export type ProductImageDocument = ProductImage & Document;
 
 @Schema()
 export class ProductImage {
-  @Prop()
-  _id: Types.ObjectId;
-
   @Prop({ type: SchemaTypes.ObjectId, ref: Product.name })
   product_id: Types.ObjectId;
 

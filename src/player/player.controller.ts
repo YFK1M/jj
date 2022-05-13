@@ -31,12 +31,14 @@ export class PlayerController {
   @Post()
   @HttpCode(HttpStatus.CREATED)
   @Header('Cache-Control', 'none')
-  createPlayer(@Body() createPlayerDto: CreatePlayerDto): Promise<Player> {
+  createPlayer(
+    @Body() createPlayerDto: CreatePlayerDto,
+  ): Promise<Player | void> {
     return this.playerService.create(createPlayerDto);
   }
 
   @Delete(':id')
-  removePlayer(@Param('id') id: string): Promise<Player> {
+  removePlayer(@Param('id') id: string): Promise<Player | void> {
     return this.playerService.remove(id);
   }
 
@@ -44,7 +46,7 @@ export class PlayerController {
   updatePlayer(
     @Body() updateMatchDto: CreatePlayerDto,
     @Param('id') id: string,
-  ): Promise<Player> {
+  ): Promise<Player | void> {
     return this.playerService.update(id, updateMatchDto);
   }
 }

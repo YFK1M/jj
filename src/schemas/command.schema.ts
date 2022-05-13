@@ -6,9 +6,6 @@ export type CommandDocument = Command & Document;
 @Schema()
 export class Command {
   @Prop()
-  _id: Types.ObjectId;
-
-  @Prop()
   image: string;
 
   @Prop()

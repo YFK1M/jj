@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateMatchDto } from './dto/create-match.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Match, MatchDocument } from './schemas/match.schema';
+import { Match, MatchDocument } from '../schemas/match.schema';
 import { UpdateMatchDto } from './dto/update-match.dto';
 
 @Injectable()

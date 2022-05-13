@@ -13,7 +13,7 @@ import {
 import { CreateMatchDto } from './dto/create-match.dto';
 import { UpdateMatchDto } from './dto/update-match.dto';
 import { MatchesService } from './matches.service';
-import { Match } from './schemas/match.schema';
+import { Match } from '../schemas/match.schema';
 
 @Controller('matches')
 export class MatchesController {

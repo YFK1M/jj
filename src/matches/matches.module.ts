@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { MatchesService } from './matches.service';
 import { MatchesController } from './matches.controller';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Match, MatchSchema } from './schemas/match.schema';
+import { Match, MatchSchema } from '../schemas/match.schema';
 
 @Module({
   imports: [

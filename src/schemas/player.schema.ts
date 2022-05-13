@@ -22,6 +22,9 @@ export class Player {
 
   @Prop()
   goal_count: number;
+
+  @Prop()
+  image_: number;
 }
 
 export const PlayerSchema = SchemaFactory.createForClass(Player);

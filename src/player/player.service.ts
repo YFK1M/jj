@@ -10,6 +10,7 @@ import {
 } from '../schemas/playerImage.schema';
 import { logger } from './player.module';
 import { CreatePlayerImageDto } from './dto/create-player-image.dto';
+import { filter } from 'rxjs';
 
 @Injectable()
 export class PlayerService {
@@ -21,18 +22,41 @@ export class PlayerService {
 
   async getAll(): Promise<Player[] | void> {
     try {
-      return this.playerModel.find().populate('playerImage');
+      return this.playerModel.find().exec();
     } catch (err) {
       return logger.error(`Service. Error: ${JSON.stringify(err)}`);
     }
   }
 
-  async getById(id: string): Promise<Player | void> {
+  async getAllImages(): Promise<PlayerImage[] | void> {
     try {
-      return this.playerModel.findById(id).populate('playerImage'); //FIXME maybe will be fucked
+      return this.playerImageModel.find().exec();
     } catch (err) {
       return logger.error(`Service. Error: ${JSON.stringify(err)}`);
     }
+  }
+
+  async getImageById(player_id: string): Promise<PlayerImage[] | void> {
+    try {
+      return this.playerImageModel.find({ player_id: player_id });
+    } catch (err) {
+      return logger.error(`Service. Error: ${JSON.stringify(err)}`);
+    }
+  }
+
+  async getPlayerById(player_id: string): Promise<Player | void> {
+    try {
+      return this.playerModel.findById(player_id);
+    } catch (err) {
+      return logger.error(`Service. Error: ${JSON.stringify(err)}`);
+    }
+  }
+
+  async getById(id: string): Promise<any> {
+    return {
+      player: await this.getPlayerById(id),
+      images: await this.getImageById(id),
+    };
   }
 
   async create(playerDto: CreatePlayerDto): Promise<Player | void> {

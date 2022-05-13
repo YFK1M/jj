@@ -13,6 +13,8 @@ import {
 import { PlayerService } from './player.service';
 import { Player } from '../schemas/player.schema';
 import { CreatePlayerDto } from './dto/create-player.dto';
+import { CreatePlayerImageDto } from './dto/create-player-image.dto';
+import { PlayerImage } from '../schemas/playerImage.schema';
 
 @Controller('player')
 export class PlayerController {
@@ -35,6 +37,15 @@ export class PlayerController {
     @Body() createPlayerDto: CreatePlayerDto,
   ): Promise<Player | void> {
     return this.playerService.create(createPlayerDto);
+  }
+
+  @Post('/image')
+  @HttpCode(HttpStatus.CREATED)
+  @Header('Cache-Control', 'none')
+  createPlayerImage(
+    @Body() createPlayerImageDto: CreatePlayerImageDto,
+  ): Promise<PlayerImage | void> {
+    return this.playerService.createImage(createPlayerImageDto);
   }
 
   @Delete(':id')

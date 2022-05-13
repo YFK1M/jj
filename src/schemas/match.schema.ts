@@ -6,9 +6,6 @@ export type MatchDocument = Match & Document;
 
 @Schema()
 export class Match {
-  @Prop()
-  _id: Types.ObjectId;
-
   @Prop({ type: SchemaTypes.ObjectId, ref: Command.name })
   first_command_id: Types.ObjectId;
 

@@ -1,6 +1,6 @@
-import { Module } from '@nestjs/common';
-import { MatchesService } from './matches.service';
-import { MatchesController } from './matches.controller';
+import { Logger, Module } from '@nestjs/common';
+import { MatchesService } from './match.service';
+import { MatchesController } from './match.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Match, MatchSchema } from '../schemas/match.schema';
 
@@ -12,3 +12,4 @@ import { Match, MatchSchema } from '../schemas/match.schema';
   controllers: [MatchesController],
 })
 export class MatchesModule {}
+export const logger = new Logger('MatchService');

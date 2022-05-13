@@ -9,6 +9,7 @@ import { CartModule } from './cart/cart.module';
 import { UserModule } from './user/user.module';
 import { TicketModule } from './ticket/ticket.module';
 import { NewsModule } from './news/news.module';
+import { CommandModule } from './command/command.module';
 
 @Module({
   imports: [
@@ -21,7 +22,8 @@ import { NewsModule } from './news/news.module';
     CartModule,
     UserModule,
     TicketModule,
-    NewsModule
+    NewsModule,
+    CommandModule
   ],
   controllers: [AppController],
   providers: [AppService],

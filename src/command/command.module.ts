@@ -9,7 +9,7 @@ import { CommandService } from './command.service';
     MongooseModule.forFeature([{ name: Command.name, schema: CommandSchema }]),
   ],
   controllers: [CommandController],
-  providers: [CommandService]
+  providers: [CommandService],
 })
 export class CommandModule {}
 export const logger = new Logger('CommandService');

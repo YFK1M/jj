@@ -1,0 +1,4 @@
+export const CART_PRODUCT_TYPES = {
+  TICKET: 'TICKET',
+  PRODUCT: 'PRODUCT',
+};

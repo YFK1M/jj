@@ -4,7 +4,7 @@ import { User } from './user.schema';
 
 export type CartDocument = Cart & Document;
 
-interface ICart {
+export interface ICart {
   type: string;
   entity_id: string;
   amount: number;

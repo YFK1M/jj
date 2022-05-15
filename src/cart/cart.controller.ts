@@ -53,10 +53,10 @@ export class CartController {
     return this.cartService.changeProductAmountInCart(changeProductAmountDto);
   }
 
-  // @Get('get-customer-cart/:user_id')
-  // getCustomerCartWithRelations(
-  //   @Param('user_id') user_id: string,
-  // ): Promise<any> {
-  //   return this.cartService.getCustomerCartWithRelations(user_id);
-  // }
+  @Get('get-customer-cart/:user_id')
+  getCustomerCartWithRelations(
+    @Param('user_id') user_id: string,
+  ): Promise<any> {
+    return this.cartService.getCustomerCartWithRelations(user_id);
+  }
 }

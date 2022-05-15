@@ -34,6 +34,13 @@ export class UserController {
     return this.userService.getById(id);
   }
 
+  @Get('self')
+  getSelf(@Session() session: Record<string, any>): Promise<User | void> {
+    if (session.user_id)
+      return this.userService.getById(session.user_id);
+    throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
+  }
+
   @Post()
   @HttpCode(HttpStatus.CREATED)
   @Header('Cache-Control', 'none')

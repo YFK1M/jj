@@ -36,8 +36,8 @@ export class TicketService {
       .catch((err) => logger.error('Service.getById', err));
   }
 
-  async create(ticketesDto: CreateTicketDto): Promise<Ticket | void> {
-    const newTicket = new this.ticketModel(ticketesDto)
+  async create(ticketDto: CreateTicketDto): Promise<Ticket | void> {
+    const newTicket = new this.ticketModel(ticketDto)
     return newTicket.save()
       .catch((err) => logger.error('Service.create', err));
   }

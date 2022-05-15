@@ -23,7 +23,7 @@ import { CommandModule } from './command/command.module';
     UserModule,
     TicketModule,
     NewsModule,
-    CommandModule
+    CommandModule,
   ],
   controllers: [AppController],
   providers: [AppService],

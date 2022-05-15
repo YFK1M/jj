@@ -1,10 +1,20 @@
-import { Body, Controller, Delete, Get, Header, HttpCode, HttpStatus, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Header,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { News } from 'src/schemas/news.schema';
 import { NewsImage } from 'src/schemas/newsImage.schema';
 import { CreateNewsImageDto } from './dto/create-news-image.dto';
 import { CreateNewsDto } from './dto/create-news.dto';
 import { UpdateNewsDto } from './dto/update-news.dto';
-import { logger } from './news.module';
 import { NewsService } from './news.service';
 
 @Controller('news')
@@ -31,7 +41,9 @@ export class NewsController {
   @Post('image')
   @HttpCode(HttpStatus.CREATED)
   @Header('Cache-Control', 'none')
-  createNewsImage(@Body() createNewsImageDto: CreateNewsImageDto): Promise<NewsImage | void> {
+  createNewsImage(
+    @Body() createNewsImageDto: CreateNewsImageDto,
+  ): Promise<NewsImage | void> {
     return this.newsService.createImage(createNewsImageDto);
   }
 
@@ -46,7 +58,10 @@ export class NewsController {
   }
 
   @Put(':id')
-  updateNews(@Body() updateNewsDto: UpdateNewsDto, @Param('id') id: string): Promise<News | void> {
+  updateNews(
+    @Body() updateNewsDto: UpdateNewsDto,
+    @Param('id') id: string,
+  ): Promise<News | void> {
     return this.newsService.updateNews(id, updateNewsDto);
   }
 }

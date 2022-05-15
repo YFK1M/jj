@@ -1,4 +1,15 @@
-import { Body, Controller, Delete, Get, Header, HttpCode, HttpStatus, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Header,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { Command } from 'src/schemas/command.schema';
 import { CommandService } from './command.service';
 import { CreateCommandDto } from './dto/create-command.dto';
@@ -21,7 +32,9 @@ export class CommandController {
   @Post()
   @HttpCode(HttpStatus.CREATED)
   @Header('Cache-Control', 'none')
-  createCommand(@Body() createCommandDto: CreateCommandDto): Promise<Command | void> {
+  createCommand(
+    @Body() createCommandDto: CreateCommandDto,
+  ): Promise<Command | void> {
     return this.commandService.create(createCommandDto);
   }
 
@@ -31,7 +44,10 @@ export class CommandController {
   }
 
   @Put(':id')
-  updateCommand(@Body() updateCommandDto: UpdateCommandDto, @Param('id') id: string): Promise<Command | void> {
+  updateCommand(
+    @Body() updateCommandDto: UpdateCommandDto,
+    @Param('id') id: string,
+  ): Promise<Command | void> {
     return this.commandService.update(id, updateCommandDto);
   }
 }

@@ -15,7 +15,7 @@ export class CommandService {
   async getAll(): Promise<Command[] | void> {
     try {
       return this.commandModel.find();
-    } catch(err) {
+    } catch (err) {
       return logger.error('Service.getAll', err);
     }
   }
@@ -23,7 +23,7 @@ export class CommandService {
   async getById(id: string): Promise<Command | void> {
     try {
       return this.commandModel.findById(id);
-    } catch(err) {
+    } catch (err) {
       return logger.error('Service.getById', err);
     }
   }
@@ -32,7 +32,7 @@ export class CommandService {
     try {
       const newCommand = new this.commandModel(commandesDto);
       return newCommand.save();
-    } catch(err) {
+    } catch (err) {
       return logger.error('Service.create', err);
     }
   }
@@ -40,15 +40,18 @@ export class CommandService {
   async remove(id: string): Promise<Command | void> {
     try {
       return this.commandModel.findByIdAndRemove(id);
-    } catch(err) {
+    } catch (err) {
       return logger.error('Service.remove', err);
     }
   }
 
-  async update(id: string, commandDto: UpdateCommandDto): Promise<Command | void> {
+  async update(
+    id: string,
+    commandDto: UpdateCommandDto,
+  ): Promise<Command | void> {
     try {
       return this.commandModel.findByIdAndUpdate(id, commandDto, { new: true });
-    } catch(err) {
+    } catch (err) {
       return logger.error('Service.update', err);
     }
   }

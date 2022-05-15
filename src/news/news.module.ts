@@ -9,11 +9,11 @@ import { NewsImage, NewsImageSchema } from 'src/schemas/newsImage.schema';
   imports: [
     MongooseModule.forFeature([
       { name: News.name, schema: NewsSchema },
-      { name: NewsImage.name, schema: NewsImageSchema }
+      { name: NewsImage.name, schema: NewsImageSchema },
     ]),
   ],
   providers: [NewsService],
-  controllers: [NewsController]
+  controllers: [NewsController],
 })
 export class NewsModule {}
 export const logger = new Logger('NewsService');

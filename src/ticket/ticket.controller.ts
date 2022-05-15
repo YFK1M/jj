@@ -1,4 +1,15 @@
-import { Body, Controller, Delete, Get, Header, HttpCode, HttpStatus, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Header,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { Ticket } from 'src/schemas/ticket.schema';
 import { CreateTicketDto } from './dto/create-ticket.dto';
 import { UpdateTicketDto } from './dto/update-ticket.dto';
@@ -21,7 +32,9 @@ export class TicketController {
   @Post()
   @HttpCode(HttpStatus.CREATED)
   @Header('Cache-Control', 'none')
-  createTicket(@Body() createTicketDto: CreateTicketDto): Promise<Ticket | void> {
+  createTicket(
+    @Body() createTicketDto: CreateTicketDto,
+  ): Promise<Ticket | void> {
     return this.ticketService.create(createTicketDto);
   }
 
@@ -31,7 +44,10 @@ export class TicketController {
   }
 
   @Put(':id')
-  updateTicket(@Body() updateTicketDto: UpdateTicketDto, @Param('id') id: string): Promise<Ticket | void> {
+  updateTicket(
+    @Body() updateTicketDto: UpdateTicketDto,
+    @Param('id') id: string,
+  ): Promise<Ticket | void> {
     return this.ticketService.update(id, updateTicketDto);
   }
 }

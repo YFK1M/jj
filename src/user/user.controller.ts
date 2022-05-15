@@ -1,4 +1,17 @@
-import { Body, Controller, Delete, Get, Header, HttpCode, HttpException, HttpStatus, Param, Post, Put, Session } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Header,
+  HttpCode,
+  HttpException,
+  HttpStatus,
+  Param,
+  Post,
+  Put,
+  Session,
+} from '@nestjs/common';
 import { USER_ROLES } from 'src/constants/user/userConstants';
 import { User } from 'src/schemas/user.schema';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -24,7 +37,10 @@ export class UserController {
   @Post()
   @HttpCode(HttpStatus.CREATED)
   @Header('Cache-Control', 'none')
-  async createUser(@Body() createUserDto: CreateUserDto, @Session() session: Record<string, any>): Promise<User | void> {
+  async createUser(
+    @Body() createUserDto: CreateUserDto,
+    @Session() session: Record<string, any>,
+  ): Promise<User | void> {
     const role = await this.userService.getRole(session.user_id);
     if (role !== USER_ROLES.ADMIN) {
       throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
@@ -38,12 +54,15 @@ export class UserController {
   register(@Body() registerUserDto: RegisterUserDto): Promise<User | void> {
     return this.userService.create({
       ...registerUserDto,
-      role: USER_ROLES.USER
+      role: USER_ROLES.USER,
     });
   }
 
   @Delete(':id')
-  async removeUser(@Param('id') id: string, @Session() session: Record<string, any>): Promise<User | void> {
+  async removeUser(
+    @Param('id') id: string,
+    @Session() session: Record<string, any>,
+  ): Promise<User | void> {
     const role = await this.userService.getRole(session.user_id);
     if (role !== USER_ROLES.ADMIN) {
       throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
@@ -52,7 +71,11 @@ export class UserController {
   }
 
   @Put(':id')
-  async updateUser(@Body() updateUserDto: UpdateUserDto, @Param('id') id: string, @Session() session: Record<string, any>): Promise<User | void> {
+  async updateUser(
+    @Body() updateUserDto: UpdateUserDto,
+    @Param('id') id: string,
+    @Session() session: Record<string, any>,
+  ): Promise<User | void> {
     const role = await this.userService.getRole(session.user_id);
     if (updateUserDto.role && role !== USER_ROLES.ADMIN) {
       throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
@@ -64,7 +87,10 @@ export class UserController {
   }
 
   @Post('login')
-  async login(@Body() loginUserDto: LoginUserDto, @Session() session: Record<string, any>): Promise<User | void> {
+  async login(
+    @Body() loginUserDto: LoginUserDto,
+    @Session() session: Record<string, any>,
+  ): Promise<User | void> {
     const user = await this.userService.validateUser(loginUserDto);
     if (user) {
       session.user_id = user._id;
@@ -81,5 +107,4 @@ export class UserController {
     }
     throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
   }
-
 }

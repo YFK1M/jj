@@ -11,17 +11,17 @@ import { LoginUserDto } from './dto/login-user.dto';
 
 @Injectable()
 export class UserService {
-    constructor(
-    @InjectModel(User.name) private userModel: Model<UserDocument>,
-  ) {}
+  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
   async getAll(): Promise<User[] | void> {
-    return this.userModel.find()
+    return this.userModel
+      .find()
       .catch((err) => logger.error('Service.getAll', err));
   }
 
   async getById(id: string): Promise<User | void> {
-    return this.userModel.findById(id)
+    return this.userModel
+      .findById(id)
       .catch((err) => logger.error('Service.getById', err));
   }
 
@@ -34,7 +34,7 @@ export class UserService {
     try {
       const user = await this.userModel.findById(id);
       return user.role;
-    } catch(err) {
+    } catch (err) {
       return logger.error('Service.getRole', err);
     }
   }
@@ -43,11 +43,11 @@ export class UserService {
     try {
       const hashedPassword = await hash(userDto.password, SALT_LENGTH);
       const newUser = new this.userModel({
-          ...userDto,
-          password: hashedPassword
-      })
+        ...userDto,
+        password: hashedPassword,
+      });
       return newUser.save();
-    } catch(err) {
+    } catch (err) {
       logger.error('Service.create', err);
     }
   }
@@ -55,10 +55,7 @@ export class UserService {
   async validateUser(loginUserDto: LoginUserDto): Promise<UserDocument | void> {
     try {
       const user = await this.getByEmail(loginUserDto.email);
-      const match = await compare(
-        loginUserDto.password,
-        user.password
-      );
+      const match = await compare(loginUserDto.password, user.password);
       if (!match) {
         return null;
       }
@@ -69,7 +66,8 @@ export class UserService {
   }
 
   async remove(id: string): Promise<User | void> {
-    return this.userModel.findByIdAndRemove(id)
+    return this.userModel
+      .findByIdAndRemove(id)
       .catch((err) => logger.error('Service.remove', err));
   }
 
@@ -78,8 +76,8 @@ export class UserService {
       if (userDto.password) {
         userDto.password = await hash(userDto.password, SALT_LENGTH);
       }
-      return this.userModel.findByIdAndUpdate(id, userDto, { new: true })
-    } catch(err) {
+      return this.userModel.findByIdAndUpdate(id, userDto, { new: true });
+    } catch (err) {
       logger.error('Service.update', err);
     }
   }

@@ -18,22 +18,26 @@ export class NewsService {
 
   async getAll(): Promise<News[] | void> {
     try {
-      return this.newsModel.find()
+      return this.newsModel
+        .find()
         .populate<{ newsImage: NewsImage }>('newsImage')
-        .then((newsArray) => newsArray.map((news) => news.toJSON({virtuals: true})))
+        .then((newsArray) =>
+          newsArray.map((news) => news.toJSON({ virtuals: true })),
+        )
         .catch((err) => logger.error('Service.getAll', err));
-    } catch(err) {
+    } catch (err) {
       return logger.error('Service.getAll', err);
     }
   }
 
   async getById(id: string): Promise<News | void> {
     try {
-      return this.newsModel.findById(id)
+      return this.newsModel
+        .findById(id)
         .populate<{ newsImage: NewsImage }>('newsImage')
-        .then((news) => news.toJSON({virtuals: true}))
+        .then((news) => news.toJSON({ virtuals: true }))
         .catch((err) => logger.error('Service.getById', err));
-    } catch(err) {
+    } catch (err) {
       return logger.error('Service.getById', err);
     }
   }
@@ -50,16 +54,18 @@ export class NewsService {
     try {
       const newNews = new this.newsModel(newsDto);
       return newNews.save();
-    } catch(err) {
+    } catch (err) {
       return logger.error('Service.createNews', err);
     }
   }
 
-  async createImage(newsImageDto: CreateNewsImageDto): Promise<NewsImage | void> {
+  async createImage(
+    newsImageDto: CreateNewsImageDto,
+  ): Promise<NewsImage | void> {
     try {
       const newNewsImage = new this.newsImageModel(newsImageDto);
       return newNewsImage.save();
-    } catch(err) {
+    } catch (err) {
       return logger.error('Service.createImage', err);
     }
   }
@@ -67,25 +73,23 @@ export class NewsService {
   async removeNews(id: string): Promise<News | void> {
     try {
       return this.newsModel.findByIdAndRemove(id);
-    } catch(err) {
+    } catch (err) {
       return logger.error('Service.removeNews', err);
     }
-
   }
 
   async removeImage(id: string): Promise<NewsImage | void> {
     try {
       return this.newsImageModel.findByIdAndRemove(id);
-    } catch(err) {
+    } catch (err) {
       return logger.error('Service.removeImage', err);
     }
-
   }
 
   async updateNews(id: string, newsDto: UpdateNewsDto): Promise<News | void> {
     try {
       return this.newsModel.findByIdAndUpdate(id, newsDto, { new: true });
-    } catch(err) {
+    } catch (err) {
       return logger.error('Service.updateNews', err);
     }
   }

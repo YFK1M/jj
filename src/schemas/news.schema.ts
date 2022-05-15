@@ -1,6 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Types } from 'mongoose';
-import { NewsImage } from './newsImage.schema';
+import { Document } from 'mongoose';
 
 export type NewsDocument = News & Document;
 
@@ -18,5 +17,5 @@ export const NewsSchema = SchemaFactory.createForClass(News);
 NewsSchema.virtual('newsImage', {
   ref: 'NewsImage',
   localField: '_id',
-  foreignField: 'news_id'
+  foreignField: 'news_id',
 });

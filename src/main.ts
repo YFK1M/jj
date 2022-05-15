@@ -19,7 +19,7 @@ async function bootstrap() {
       resave: false,
       saveUninitialized: false,
     }),
-  )
+  );
 
   const config = new DocumentBuilder()
     .setTitle('Dedicated Education System')

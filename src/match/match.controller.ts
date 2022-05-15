@@ -42,7 +42,10 @@ export class MatchesController {
   }
 
   @Put(':id')
-  updateMatch(@Body() updateMatchDto: UpdateMatchDto, @Param('id') id: string): Promise<Match | void> {
+  updateMatch(
+    @Body() updateMatchDto: UpdateMatchDto,
+    @Param('id') id: string,
+  ): Promise<Match | void> {
     return this.matchesService.update(id, updateMatchDto);
   }
 }

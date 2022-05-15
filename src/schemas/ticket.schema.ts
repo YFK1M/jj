@@ -6,9 +6,6 @@ export type TicketDocument = Ticket & Document;
 
 @Schema()
 export class Ticket {
-  @Prop()
-  _id: Types.ObjectId;
-
   @Prop({ type: SchemaTypes.ObjectId, ref: Match.name })
   match_id: string;
 

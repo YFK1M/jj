@@ -19,5 +19,6 @@ export const logger = new Logger('ProductModule');
   ],
   controllers: [ProductController],
   providers: [ProductService],
+  exports: [ProductService],
 })
 export class ProductModule {}

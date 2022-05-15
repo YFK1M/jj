@@ -27,7 +27,7 @@ export class ProductController {
   @Post('create')
   @HttpCode(HttpStatus.CREATED)
   @Header('Cache-Control', 'none')
-  createPlayer(
+  createProduct(
     @Body() createProductDto: CreateProductDto,
   ): Promise<Product | void> {
     return this.productService.create(createProductDto);

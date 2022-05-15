@@ -19,6 +19,7 @@ import { LoginUserDto } from './dto/login-user.dto';
 import { RegisterUserDto } from './dto/register-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserService } from './user.service';
+import { logger } from './user.module';
 
 @Controller('user')
 export class UserController {
@@ -36,8 +37,8 @@ export class UserController {
 
   @Get('self')
   getSelf(@Session() session: Record<string, any>): Promise<User | void> {
-    if (session.user_id)
-      return this.userService.getById(session.user_id);
+    logger.warn(session);
+    if (session.user_id) return this.userService.getById(session.user_id);
     throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
   }
 

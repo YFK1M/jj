@@ -11,6 +11,7 @@ async function bootstrap() {
       'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, Observe',
     methods: 'GET,PUT,POST,DELETE,UPDATE,OPTIONS',
     credentials: true,
+    origin: 'http://localhost:3000',
   });
 
   app.use(

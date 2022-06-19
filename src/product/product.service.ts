@@ -9,11 +9,18 @@ import {
   ProductImageDocument,
 } from '../schemas/productImage.schema';
 import { SetProductImageDto } from './dto/setProductImage.dto';
+import { CreateProductsTypeDto } from './dto/createProductsType.dto';
+import {
+  ProductsType,
+  ProductsTypeDocument,
+} from '../schemas/productsType.schema';
 
 @Injectable()
 export class ProductService {
   constructor(
     @InjectModel(Product.name) private productModel: Model<ProductDocument>,
+    @InjectModel(ProductsType.name)
+    private productsTypeModel: Model<ProductsTypeDocument>,
     @InjectModel(ProductImage.name)
     private productImageModel: Model<ProductImageDocument>,
   ) {}
@@ -39,6 +46,16 @@ export class ProductService {
     }
   }
 
+  async createType(
+    createProductsTypeDto: CreateProductsTypeDto,
+  ): Promise<ProductsType | void> {
+    try {
+      return this.productsTypeModel.create(createProductsTypeDto);
+    } catch (err) {
+      return logger.error('service.createType', err);
+    }
+  }
+
   async findProductById(id: string): Promise<Product | void> {
     try {
       return this.productModel
@@ -50,11 +67,40 @@ export class ProductService {
     }
   }
 
+  async getAllProductsTypes(): Promise<any> {
+    try {
+      return this.productsTypeModel.find();
+    } catch (err) {
+      return logger.error('Service.getAll', err);
+    }
+  }
+
+  async findProductsByProductTypeId(id: string): Promise<any> {
+    try {
+      return this.productModel
+        .find({ productsType_id: id })
+        .populate<{ productImage: ProductImage }>('productImage')
+        .then((products) => {
+          return products.map((product) => product.toJSON({ virtuals: true }));
+        });
+    } catch (err) {
+      return logger.error('service.findProductById', err);
+    }
+  }
+
   async deleteProduct(id: string): Promise<Product | void> {
     try {
       return this.productModel.findByIdAndRemove(id);
     } catch (err) {
       return logger.error('service.deleteProduct', err);
+    }
+  }
+
+  async deleteProductsType(id: string): Promise<ProductsType | void> {
+    try {
+      return this.productModel.findByIdAndRemove(id);
+    } catch (err) {
+      return logger.error('service.deleteProductsType', err);
     }
   }
 

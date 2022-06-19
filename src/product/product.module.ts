@@ -7,6 +7,10 @@ import {
   ProductImage,
   ProductImageSchema,
 } from '../schemas/productImage.schema';
+import {
+  ProductsType,
+  ProductsTypeSchema,
+} from '../schemas/productsType.schema';
 
 export const logger = new Logger('ProductModule');
 
@@ -15,6 +19,7 @@ export const logger = new Logger('ProductModule');
     MongooseModule.forFeature([
       { name: Product.name, schema: ProductSchema },
       { name: ProductImage.name, schema: ProductImageSchema },
+      { name: ProductsType.name, schema: ProductsTypeSchema },
     ]),
   ],
   controllers: [ProductController],

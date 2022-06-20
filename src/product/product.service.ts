@@ -14,6 +14,8 @@ import {
   ProductsType,
   ProductsTypeDocument,
 } from '../schemas/productsType.schema';
+import { UpdateTicketDto } from '../ticket/dto/update-ticket.dto';
+import { Ticket } from '../schemas/ticket.schema';
 
 @Injectable()
 export class ProductService {
@@ -98,7 +100,7 @@ export class ProductService {
 
   async deleteProductsType(id: string): Promise<ProductsType | void> {
     try {
-      return this.productModel.findByIdAndRemove(id);
+      return this.productsTypeModel.findByIdAndRemove(id);
     } catch (err) {
       return logger.error('service.deleteProductsType', err);
     }
@@ -120,5 +122,14 @@ export class ProductService {
     } catch (err) {
       return logger.error('service.setProductImage', err);
     }
+  }
+
+  async update(
+    id: string,
+    createProductsTypeDto: CreateProductsTypeDto,
+  ): Promise<ProductsType | void> {
+    return this.productsTypeModel
+      .findByIdAndUpdate(id, createProductsTypeDto, { new: true })
+      .catch((err) => logger.error('Service.update', err));
   }
 }

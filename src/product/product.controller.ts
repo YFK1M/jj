@@ -8,6 +8,7 @@ import {
   HttpStatus,
   Param,
   Post,
+  Put,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/createProduct.dto';
@@ -81,5 +82,13 @@ export class ProductController {
     @Body() setProductImageDto: SetProductImageDto,
   ): Promise<ProductImage | void> {
     return this.productService.addProductImage(setProductImageDto);
+  }
+
+  @Put('type/:id')
+  updateProductType(
+    @Body() createProductsTypeDto: CreateProductsTypeDto,
+    @Param('id') id: string,
+  ): Promise<ProductsType | void> {
+    return this.productService.update(id, createProductsTypeDto);
   }
 }

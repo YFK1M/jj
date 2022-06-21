@@ -14,8 +14,6 @@ import {
   ProductsType,
   ProductsTypeDocument,
 } from '../schemas/productsType.schema';
-import { UpdateTicketDto } from '../ticket/dto/update-ticket.dto';
-import { Ticket } from '../schemas/ticket.schema';
 
 @Injectable()
 export class ProductService {

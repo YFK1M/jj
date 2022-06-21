@@ -15,6 +15,7 @@ import { Cart } from '../schemas/cart.schema';
 import { AddProductToCustomerCartDto } from './dto/addProductToCustomerCart.dto';
 import { ChangeProductAmountDto } from './dto/changeProductAmount.dto';
 import { RemoveProductFromCartDto } from './dto/removeProductFromCart.dto';
+import {AddTicketToCustomerCartDto} from "./dto/addTicketToCustomerCart.dto";
 
 @Controller('cart')
 export class CartController {
@@ -37,6 +38,12 @@ export class CartController {
     @Body() addProductToCustomerCartDto: AddProductToCustomerCartDto,
   ): Promise<Cart> {
     return this.cartService.addProductToCart(addProductToCustomerCartDto);
+  }
+  @Post('add-ticket-to-cart')
+  addTicketToCart(
+    @Body() addTicketToCustomerCartDto: AddTicketToCustomerCartDto,
+  ): Promise<Cart> {
+    return this.cartService.addTicketToCart(addTicketToCustomerCartDto);
   }
 
   @Post('remove-product-from-cart')

@@ -23,13 +23,16 @@ export class TicketService {
   }
 
   async getById(id: string): Promise<Ticket | void> {
-    return this.ticketModel
-      .findById(id)
-      .populate({
-        path: 'match_id',
-        populate: [{ path: 'first_command_id' }, { path: 'second_command_id' }],
-      })
-      .catch((err) => logger.error('Service.getById', err));
+    try {
+      return this.ticketModel
+        .findById(id)
+        .populate({
+          path: 'match_id',
+          populate: [{ path: 'first_command_id' }, { path: 'second_command_id' }],
+        })
+    } catch (err) {
+      return logger.error('Service.getById', err)
+    }
   }
 
   async create(ticketesDto: CreateTicketDto): Promise<Ticket | void> {

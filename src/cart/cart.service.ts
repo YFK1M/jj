@@ -1,22 +1,24 @@
-import { Injectable } from '@nestjs/common';
+import {forwardRef, Inject, Injectable} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Cart, CartDocument } from '../schemas/cart.schema';
 import { CreateCartDto } from './dto/createCart.dto';
 import { AddProductToCustomerCartDto } from './dto/addProductToCustomerCart.dto';
+import { AddTicketToCustomerCartDto } from "./dto/addTicketToCustomerCart.dto";
 import { ChangeProductAmountDto } from './dto/changeProductAmount.dto';
-import { CART_PRODUCT_TYPES } from '../constants/cart/cartConstants';
 import { RemoveProductFromCartDto } from './dto/removeProductFromCart.dto';
+import { CART_PRODUCT_TYPES } from '../constants/cart/cartConstants';
 import { ProductService } from '../product/product.service';
-import { Ticket, TicketDocument } from '../schemas/ticket.schema';
-import { logger } from '../ticket/ticket.module';
+import { TicketService } from "../ticket/ticket.service";
 
 @Injectable()
 export class CartService {
   constructor(
     @InjectModel(Cart.name) private cartModel: Model<CartDocument>,
-    @InjectModel(Ticket.name) private ticketModel: Model<TicketDocument>,
+    @Inject(forwardRef(() => ProductService))
     private productService: ProductService,
+    // @Inject(forwardRef(() => TicketService))
+    // private ticketService: TicketService,
   ) {}
 
   async create(createCartDto: CreateCartDto): Promise<Cart> {
@@ -46,6 +48,26 @@ export class CartService {
       userCart,
       { userId: userCart.user_id, cart: cartProducts },
       { new: true },
+    );
+  }
+
+  async addTicketToCart(
+      addTicketToCustomerCartDto: AddTicketToCustomerCartDto,
+  ): Promise<any> {
+    const userCart = await this.getCustomerCart(
+        addTicketToCustomerCartDto.user_id,
+    );
+
+    if (!userCart) return null;
+
+    const cartTickets = userCart.cart;
+    cartTickets.push(addTicketToCustomerCartDto.cartTicket);
+    console.log(addTicketToCustomerCartDto.cartTicket)
+    console.log(userCart)
+    return this.cartModel.findOneAndUpdate(
+        userCart,
+        { userId: userCart.user_id, cart: cartTickets },
+        { new: true },
     );
   }
 
@@ -103,7 +125,6 @@ export class CartService {
     );
 
     const productsArrWithData = [];
-    const ticketsArrWithData = [];
 
     for (const productItem in productsArray) {
       const product = await this.productService.findProductById(
@@ -112,24 +133,21 @@ export class CartService {
       productsArrWithData.push({
         ...product,
         amount: productsArray[productItem].amount,
+        type: 'PRODUCT',
       });
     }
-    for (const ticketItem in ticketsArray) {
-      ticketsArrWithData.push(
-        await this.ticketModel
-          .findById(ticketsArray[ticketItem].entity_id)
-          .populate({
-            path: 'match_id',
-            populate: [
-              { path: 'first_command_id' },
-              { path: 'second_command_id' },
-            ],
-          })
-          .catch((err) => logger.error('Service.getById', err)),
-      );
-    }
-    const preparedData = userCart;
-    preparedData.cart = ticketsArrWithData.concat(productsArrWithData);
+    // for (const ticketItem in ticketsArray) {
+    //   const ticket = await this.ticketService.getById(
+    //       ticketsArray[ticketItem].entity_id,
+    //   );
+    //   productsArrWithData.push({
+    //     ...ticket,
+    //     amount: ticketsArray[ticketItem].amount,
+    //     type: 'TICKET',
+    //   });
+    // }
+    let preparedData = userCart;
+    preparedData.cart = productsArrWithData;
     return preparedData;
   }
 }

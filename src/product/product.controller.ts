@@ -89,6 +89,22 @@ export class ProductController {
     @Body() createProductsTypeDto: CreateProductsTypeDto,
     @Param('id') id: string,
   ): Promise<ProductsType | void> {
-    return this.productService.update(id, createProductsTypeDto);
+    return this.productService.updateType(id, createProductsTypeDto);
+  }
+
+  @Put(':id')
+  updateProduct(
+    @Body() createProductDto: CreateProductDto,
+    @Param('id') id: string,
+  ): Promise<Product | void> {
+    return this.productService.update(id, createProductDto);
+  }
+
+  @Put('/image/:id')
+  updateProductImage(
+    @Body() setProductImageDto: SetProductImageDto,
+    @Param('id') id: string,
+  ): Promise<ProductImage | void> {
+    return this.productService.updateImage(id, setProductImageDto);
   }
 }

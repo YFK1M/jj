@@ -124,12 +124,30 @@ export class ProductService {
     }
   }
 
-  async update(
+  async updateType(
     id: string,
     createProductsTypeDto: CreateProductsTypeDto,
   ): Promise<ProductsType | void> {
     return this.productsTypeModel
       .findByIdAndUpdate(id, createProductsTypeDto, { new: true })
+      .catch((err) => logger.error('Service.update', err));
+  }
+
+  async updateImage(
+    id: string,
+    setProductImageDto: SetProductImageDto,
+  ): Promise<ProductImage | void> {
+    return this.productImageModel
+      .findByIdAndUpdate(id, setProductImageDto, { new: true })
+      .catch((err) => logger.error('Service.update', err));
+  }
+
+  async update(
+    id: string,
+    createProductDto: CreateProductDto,
+  ): Promise<Product | void> {
+    return this.productModel
+      .findByIdAndUpdate(id, createProductDto, { new: true })
       .catch((err) => logger.error('Service.update', err));
   }
 }

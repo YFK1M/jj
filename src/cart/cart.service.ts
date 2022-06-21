@@ -37,11 +37,11 @@ export class CartService {
     const userCart = await this.getCustomerCart(
       addProductToCustomerCartDto.user_id,
     );
+
+    if (!userCart) return null;
+
     const cartProducts = userCart.cart;
-    cartProducts.push({
-      ...addProductToCustomerCartDto.cartProduct,
-      amount: 1,
-    });
+    cartProducts.push(addProductToCustomerCartDto.cartProduct);
     return this.cartModel.findOneAndUpdate(
       userCart,
       { userId: userCart.user_id, cart: cartProducts },
@@ -92,7 +92,7 @@ export class CartService {
   }
   async getCustomerCartWithRelations(userId: string): Promise<any> {
     const userCart = await this.getCustomerCart(userId);
-
+    if (!userCart) return null;
     let ticketsArray = userCart.cart;
     let productsArray = userCart.cart;
     ticketsArray = ticketsArray.filter(
@@ -104,12 +104,15 @@ export class CartService {
 
     const productsArrWithData = [];
     const ticketsArrWithData = [];
+
     for (const productItem in productsArray) {
-      productsArrWithData.push(
-        await this.productService.findProductById(
-          productsArray[productItem].entity_id,
-        ),
+      const product = await this.productService.findProductById(
+        productsArray[productItem].entity_id,
       );
+      productsArrWithData.push({
+        ...product,
+        amount: productsArray[productItem].amount,
+      });
     }
     for (const ticketItem in ticketsArray) {
       ticketsArrWithData.push(

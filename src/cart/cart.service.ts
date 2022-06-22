@@ -127,7 +127,7 @@ export class CartService {
         productsArray[productItem].entity_id,
       );
       productsArrWithData.push({
-        ...product,
+        product: product,
         amount: productsArray[productItem].amount,
         type: 'PRODUCT',
       });
@@ -137,15 +137,13 @@ export class CartService {
           ticketsArray[ticketItem].entity_id,
       );
       productsArrWithData.push({
-        ...ticket,
+        product: ticket,
         amount: ticketsArray[ticketItem].amount,
         type: 'TICKET',
       });
     }
     let preparedData = userCart;
     preparedData.cart = productsArrWithData;
-    console.log(preparedData.cart)
-    console.log(preparedData)
     return preparedData;
   }
 }

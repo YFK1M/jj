@@ -1,10 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import {forwardRef, Inject, Injectable} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 import { Ticket, TicketDocument } from 'src/schemas/ticket.schema';
+import { logger } from './ticket.module';
 import { CreateTicketDto } from './dto/create-ticket.dto';
 import { UpdateTicketDto } from './dto/update-ticket.dto';
-import { logger } from './ticket.module';
-import { Model } from 'mongoose';
 
 @Injectable()
 export class TicketService {
@@ -35,8 +35,8 @@ export class TicketService {
     }
   }
 
-  async create(ticketesDto: CreateTicketDto): Promise<Ticket | void> {
-    const newTicket = new this.ticketModel(ticketesDto);
+  async create(ticketDto: CreateTicketDto): Promise<Ticket | void> {
+    const newTicket = new this.ticketModel(ticketDto);
     return newTicket.save().catch((err) => logger.error('Service.create', err));
   }
 

@@ -1,4 +1,4 @@
-import { Logger, Module } from '@nestjs/common';
+import { Logger, Module} from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Ticket, TicketSchema } from 'src/schemas/ticket.schema';
 import { TicketController } from './ticket.controller';
@@ -8,7 +8,9 @@ export const logger = new Logger('TicketService');
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: Ticket.name, schema: TicketSchema }]),
+    MongooseModule.forFeature([
+        { name: Ticket.name, schema: TicketSchema },
+    ]),
   ],
   controllers: [TicketController],
   providers: [TicketService],

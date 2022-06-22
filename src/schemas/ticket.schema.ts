@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { SchemaTypes, Types, Document } from 'mongoose';
+import { SchemaTypes, Document } from 'mongoose';
 import { Match } from './match.schema';
 
 export type TicketDocument = Ticket & Document;

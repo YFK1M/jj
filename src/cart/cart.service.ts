@@ -1,4 +1,4 @@
-import {forwardRef, Inject, Injectable} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Cart, CartDocument } from '../schemas/cart.schema';
@@ -15,10 +15,8 @@ import { TicketService } from "../ticket/ticket.service";
 export class CartService {
   constructor(
     @InjectModel(Cart.name) private cartModel: Model<CartDocument>,
-    @Inject(forwardRef(() => ProductService))
     private productService: ProductService,
-    // @Inject(forwardRef(() => TicketService))
-    // private ticketService: TicketService,
+    private ticketService: TicketService,
   ) {}
 
   async create(createCartDto: CreateCartDto): Promise<Cart> {
@@ -62,8 +60,6 @@ export class CartService {
 
     const cartTickets = userCart.cart;
     cartTickets.push(addTicketToCustomerCartDto.cartTicket);
-    console.log(addTicketToCustomerCartDto.cartTicket)
-    console.log(userCart)
     return this.cartModel.findOneAndUpdate(
         userCart,
         { userId: userCart.user_id, cart: cartTickets },
@@ -136,18 +132,20 @@ export class CartService {
         type: 'PRODUCT',
       });
     }
-    // for (const ticketItem in ticketsArray) {
-    //   const ticket = await this.ticketService.getById(
-    //       ticketsArray[ticketItem].entity_id,
-    //   );
-    //   productsArrWithData.push({
-    //     ...ticket,
-    //     amount: ticketsArray[ticketItem].amount,
-    //     type: 'TICKET',
-    //   });
-    // }
+    for (const ticketItem in ticketsArray) {
+      const ticket = await this.ticketService.getById(
+          ticketsArray[ticketItem].entity_id,
+      );
+      productsArrWithData.push({
+        ...ticket,
+        amount: ticketsArray[ticketItem].amount,
+        type: 'TICKET',
+      });
+    }
     let preparedData = userCart;
     preparedData.cart = productsArrWithData;
+    console.log(preparedData.cart)
+    console.log(preparedData)
     return preparedData;
   }
 }

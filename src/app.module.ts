@@ -5,9 +5,9 @@ import { AppService } from './app.service';
 import { MatchesModule } from './match/match.module';
 import { PlayerModule } from './player/player.module';
 import { ProductModule } from './product/product.module';
+import { TicketModule } from './ticket/ticket.module';
 import { CartModule } from './cart/cart.module';
 import { UserModule } from './user/user.module';
-import { TicketModule } from './ticket/ticket.module';
 import { NewsModule } from './news/news.module';
 import { CommandModule } from './command/command.module';
 
@@ -18,10 +18,10 @@ import { CommandModule } from './command/command.module';
     ),
     MatchesModule,
     PlayerModule,
+    TicketModule,
     ProductModule,
     CartModule,
     UserModule,
-    TicketModule,
     NewsModule,
     CommandModule,
   ],
